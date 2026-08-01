@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content="AURORA-LM: continuous-latent diffusion language modeling." />
+    <title>AURORA-LM</title>
+    <style>
+      :root { --ink:#20212a; --muted:#656878; --purple:#6500a8; --lavender:#f7f1fc; --line:#e8e1ef; --paper:#ffffff; }
+      * { box-sizing:border-box; }
+      html { scroll-behavior:smooth; }
+      body { margin:0; color:var(--ink); background:var(--paper); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height:1.6; }
+      a { color:var(--purple); text-decoration:none; }
+      a:hover { text-decoration:underline; }
+      .wrap { width:min(1120px, calc(100% - 40px)); margin:0 auto; }
+      nav { position:sticky; top:0; z-index:3; background:rgba(255,255,255,.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
+      nav .wrap { display:flex; justify-content:space-between; align-items:center; min-height:60px; }
+      .brand { font-weight:800; letter-spacing:-.04em; color:var(--purple); }
+      .nav-links { display:flex; gap:22px; font-size:.9rem; }
+      .hero { text-align:center; padding:86px 0 58px; background:linear-gradient(180deg, var(--lavender), #fff 84%); }
+      .eyebrow { color:var(--purple); font-size:.8rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
+      h1 { max-width:970px; margin:12px auto 18px; font-size:clamp(2.25rem,5vw,4.7rem); line-height:1.04; letter-spacing:-.065em; }
+      .subtitle { max-width:730px; margin:0 auto; color:var(--muted); font-size:clamp(1.05rem,2vw,1.26rem); }
+      .authors { max-width:930px; margin:26px auto 10px; font-size:.98rem; }
+      .affiliations { max-width:760px; margin:0 auto; color:var(--muted); font-size:.87rem; }
+      .buttons { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:30px; }
+      .button { display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border:1px solid var(--purple); border-radius:999px; font-size:.94rem; font-weight:700; }
+      .button.primary { color:#fff; background:var(--purple); }
+      .button.muted { color:#777; border-color:#d9d3df; cursor:default; }
+      section { padding:76px 0; }
+      section.alt { background:#fbf9fd; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+      h2 { margin:0 0 16px; font-size:clamp(1.7rem,3vw,2.35rem); letter-spacing:-.045em; }
+      .lead { max-width:820px; margin:0 auto; color:#454756; font-size:1.08rem; }
+      .center { text-align:center; }
+      .figure { display:block; width:100%; margin:34px auto 0; border-radius:16px; border:1px solid var(--line); background:white; }
+      .framework { max-width:1120px; }
+      .teaser { max-width:1000px; padding:12px; }
+      .caption { max-width:920px; margin:13px auto 0; color:var(--muted); font-size:.9rem; text-align:center; }
+      .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
+      .card { padding:26px; background:#fff; border:1px solid var(--line); border-radius:16px; }
+      .card .index { color:var(--purple); font-size:.78rem; font-weight:800; letter-spacing:.12em; }
+      .card h3 { margin:8px 0 8px; font-size:1.15rem; letter-spacing:-.025em; }
+      .card p { margin:0; color:var(--muted); font-size:.94rem; }
+      .release { max-width:720px; margin:28px auto 0; padding:22px 26px; background:#fff; border:1px solid var(--line); border-radius:14px; text-align:left; }
+      .release li { margin:7px 0; }
+      .ready { color:#238636; font-weight:700; }
+      .soon { color:var(--muted); }
+      footer { padding:38px 0 48px; color:var(--muted); font-size:.9rem; text-align:center; }
+      @media (max-width:720px) { .nav-links { display:none; } .hero { padding-top:65px; } .cards { grid-template-columns:1fr; } section { padding:56px 0; } }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="wrap">
+        <a class="brand" href="#top">AURORA-LM</a>
+        <div class="nav-links"><a href="#overview">Overview</a><a href="#method">Method</a><a href="#results">Results</a><a href="#release">Release</a></div>
+      </div>
+    </nav>
+
+    <main id="top">
+      <header class="hero">
+        <div class="wrap">
+          <div class="eyebrow">Continuous-latent diffusion language modeling</div>
+          <h1>AURORA-LM</h1>
+          <p class="subtitle">Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling</p>
+          <p class="authors"><strong>Jiajun Liang*</strong>, <strong>Yucheng Liao*</strong>, <strong>Yukang Cao*</strong>, Jiazhe Wei, Ken Li, Wende Tan, ZY Cui, Jingkang Yang, Liucheng Guo, Caifeng Shan, Ziwei Liu, and Chenyang Si†</p>
+          <p class="affiliations">PRLab, Nanjing University · S-Lab, Nanyang Technological University · Imperial College London<br />* Equal contribution · † Corresponding author</p>
+          <div class="buttons">
+            <a class="button primary" href="https://github.com/fyv587/AURORA-LM">Code</a>
+            <span class="button muted">Paper · coming soon</span>
+          </div>
+        </div>
+      </header>
+
+      <section id="overview">
+        <div class="wrap center">
+          <h2>Keep the representation rich; adapt the generative model.</h2>
+          <p class="lead">AURORA-LM separates the construction of a decodable continuous text latent from modeling its generative distribution. Rather than reducing the decoder-facing representation to simplify diffusion, it retains a high-capacity latent and configures the denoiser to learn it effectively.</p>
+        </div>
+      </section>
+
+      <section id="method" class="alt">
+        <div class="wrap center">
+          <h2>From text to continuous generation and back</h2>
+          <img class="figure framework" src="assets/framework.png" alt="AURORA-LM overview pipeline" />
+          <p class="caption">A Query-based Encoder-Decoder constructs an ordered continuous text latent; a block-causal denoiser learns its distribution through flow matching and generates latent blocks from left to right.</p>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <div class="center"><h2>Three coupled design choices</h2></div>
+          <div class="cards">
+            <article class="card"><div class="index">01 · LATENT INTERFACE</div><h3>High-capacity decoder-facing latents</h3><p>The latent sequence preserves the information needed for accurate token recovery rather than treating compression as the default route to tractable generation.</p></article>
+            <article class="card"><div class="index">02 · DENOISER INPUT</div><h3>Full-width target, narrow noisy input</h3><p>The denoiser predicts the full clean latent consumed by the decoder, while a low-rank pathway restricts only how the noisy state enters the Transformer.</p></article>
+            <article class="card"><div class="index">03 · GENERATION</div><h3>Block-causal latent dynamics</h3><p>Latent blocks are generated left to right, while positions inside each block are denoised in parallel and stabilized with trajectory-level consistency.</p></article>
+          </div>
+        </div>
+      </section>
+
+      <section id="results" class="alt">
+        <div class="wrap center">
+          <h2>Evaluation across generation settings and model scales</h2>
+          <img class="figure teaser" src="assets/teaser.png" alt="AURORA-LM system-level and scaling evaluation" />
+          <p class="caption">AURORA-LM is evaluated on OpenWebText free generation, XSum conditional summarization, and a nine-task large-scale benchmark protocol.</p>
+        </div>
+      </section>
+
+      <section id="release">
+        <div class="wrap center">
+          <h2>Release status</h2>
+          <p class="lead">This official repository is being prepared for the public release. Training code, evaluation scripts, and checkpoints are not yet available.</p>
+          <ul class="release">
+            <li class="ready">✓ Project page and paper overview</li>
+            <li class="soon">○ Training and inference code</li>
+            <li class="soon">○ Evaluation scripts and configurations</li>
+            <li class="soon">○ Model checkpoints</li>
+          </ul>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="wrap">For paper and collaboration inquiries, contact <a href="mailto:chenyangsi@smail.nju.edu.cn">Chenyang Si</a>. For code-release questions, contact <a href="mailto:grealish2821@gmail.com">Jiajun Liang</a>.</div>
+    </footer>
+  </body>
+</html>
