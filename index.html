@@ -74,8 +74,8 @@
 
       <section id="overview">
         <div class="wrap center">
-          <h2>Keep the representation rich; adapt the generative model.</h2>
-          <p class="lead">AURORA-LM separates the construction of a decodable continuous text latent from modeling its generative distribution. Rather than reducing the decoder-facing representation to simplify diffusion, it retains a high-capacity latent and configures the denoiser to learn its distribution directly.</p>
+          <h2>Preserve a high-capacity, decodable text latent.</h2>
+          <p class="lead">AURORA-LM separates the construction of a decodable continuous text representation from the modeling of its generative distribution. Instead of simplifying the representation to accommodate the generative model, it preserves a high-capacity, decodable text latent and designs the diffusion model to learn its distribution directly.</p>
         </div>
       </section>
 
@@ -91,9 +91,9 @@
         <div class="wrap">
           <div class="center"><h2>Three coupled design choices</h2></div>
           <div class="cards">
-            <article class="card"><div class="index">01 · LATENT INTERFACE</div><h3>Capacity-first latent interface</h3><p>A high-capacity, prefix-ordered latent retains the information required for token recovery and blockwise left-to-right generation.</p></article>
-            <article class="card"><div class="index">02 · DISTRIBUTION MODELING</div><h3>Full-width target, narrow noisy input</h3><p>The denoiser predicts the full clean latent consumed by the decoder. A low-rank pathway restricts only the noisy input, with noise allocation calibrated to latent width.</p></article>
-            <article class="card"><div class="index">03 · GENERATION</div><h3>Efficient blockwise sampling</h3><p>Latent blocks are generated left to right while positions within each block are denoised in parallel; trajectory consistency stabilizes few-step sampling.</p></article>
+            <article class="card"><div class="index">01 · LATENT INTERFACE</div><h3>High-capacity, prefix-aligned text latents</h3><p>A Query-based Encoder-Decoder organizes text into a continuous latent sequence that supports token decoding and blockwise left-to-right generation.</p></article>
+            <article class="card"><div class="index">02 · DISTRIBUTION MODELING</div><h3>Learning full-width latent distributions</h3><p>A Block-Causal Diffusion Transformer learns the full clean latent used by the decoder. A low-rank bottleneck restricts only the noisy-input pathway.</p></article>
+            <article class="card"><div class="index">03 · GENERATION</div><h3>Blockwise generation with trajectory consistency</h3><p>Latent blocks are generated left to right while positions within each block are jointly denoised; width-aware noise allocation and trajectory consistency stabilize sampling.</p></article>
           </div>
         </div>
       </section>
