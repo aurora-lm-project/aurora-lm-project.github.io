@@ -3,125 +3,259 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="AURORA-LM: continuous-latent diffusion language modeling." />
+    <meta name="description" content="AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling." />
     <title>AURORA-LM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&display=swap" rel="stylesheet" />
     <style>
-      :root { --ink:#20212a; --muted:#656878; --purple:#6500a8; --lavender:#f7f1fc; --line:#e8e1ef; --paper:#ffffff; }
+      :root { --ink:#20212b; --ink-soft:#4d4d5c; --muted:#767382; --purple:#6200a6; --purple-dark:#43006f; --pale:#f8f3fb; --wash:#fcfaff; --line:#e7e0ed; --sans:"DM Sans",Inter,ui-sans-serif,system-ui,sans-serif; --serif:"Source Serif 4",Georgia,serif; --mono:"DM Mono",ui-monospace,monospace; }
       * { box-sizing:border-box; }
       html { scroll-behavior:smooth; }
-      body { margin:0; color:var(--ink); background:var(--paper); font-family:Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; line-height:1.6; }
-      a { color:var(--purple); text-decoration:none; }
-      a:hover { text-decoration:underline; }
-      .wrap { width:min(1120px, calc(100% - 40px)); margin:0 auto; }
-      nav { position:sticky; top:0; z-index:3; background:rgba(255,255,255,.94); backdrop-filter:blur(10px); border-bottom:1px solid var(--line); }
-      nav .wrap { display:flex; justify-content:space-between; align-items:center; min-height:60px; }
-      .brand { font-weight:800; letter-spacing:-.04em; color:var(--purple); }
-      .nav-links { display:flex; gap:22px; font-size:.9rem; }
-      .hero { text-align:center; padding:86px 0 58px; background:linear-gradient(180deg, var(--lavender), #fff 84%); }
-      .eyebrow { color:var(--purple); font-size:.8rem; font-weight:800; letter-spacing:.14em; text-transform:uppercase; }
-      h1 { max-width:970px; margin:12px auto 18px; font-size:clamp(2.25rem,5vw,4.7rem); line-height:1.04; letter-spacing:-.065em; }
-      .subtitle { max-width:730px; margin:0 auto; color:var(--muted); font-size:clamp(1.05rem,2vw,1.26rem); }
-      .authors { max-width:930px; margin:26px auto 10px; font-size:.98rem; }
-      .affiliations { max-width:760px; margin:0 auto; color:var(--muted); font-size:.87rem; }
-      .buttons { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:30px; }
-      .button { display:inline-flex; align-items:center; gap:7px; padding:10px 16px; border:1px solid var(--purple); border-radius:999px; font-size:.94rem; font-weight:700; }
-      .button.primary { color:#fff; background:var(--purple); }
-      .button.muted { color:#777; border-color:#d9d3df; cursor:default; }
-      section { padding:76px 0; }
-      section.alt { background:#fbf9fd; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
-      h2 { margin:0 0 16px; font-size:clamp(1.7rem,3vw,2.35rem); letter-spacing:-.045em; }
-      .lead { max-width:820px; margin:0 auto; color:#454756; font-size:1.08rem; }
-      .center { text-align:center; }
-      .figure { display:block; width:100%; margin:34px auto 0; border-radius:16px; border:1px solid var(--line); background:white; }
-      .framework { max-width:1120px; }
-      .teaser { max-width:1000px; padding:12px; }
-      .caption { max-width:920px; margin:13px auto 0; color:var(--muted); font-size:.9rem; text-align:center; }
-      .cards { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; margin-top:32px; }
-      .card { padding:26px; background:#fff; border:1px solid var(--line); border-radius:16px; }
-      .card .index { color:var(--purple); font-size:.78rem; font-weight:800; letter-spacing:.12em; }
-      .card h3 { margin:8px 0 8px; font-size:1.15rem; letter-spacing:-.025em; }
-      .card p { margin:0; color:var(--muted); font-size:.94rem; }
-      .release { max-width:720px; margin:28px auto 0; padding:22px 26px; background:#fff; border:1px solid var(--line); border-radius:14px; text-align:left; }
-      .release li { margin:7px 0; }
-      .ready { color:#238636; font-weight:700; }
-      .soon { color:var(--muted); }
-      footer { padding:38px 0 48px; color:var(--muted); font-size:.9rem; text-align:center; }
-      @media (max-width:720px) { .nav-links { display:none; } .hero { padding-top:65px; } .cards { grid-template-columns:1fr; } section { padding:56px 0; } }
+      body { margin:0; color:var(--ink); background:#fff; font-family:var(--sans); line-height:1.6; }
+      a { color:inherit; text-decoration:none; }
+      a:hover { color:var(--purple); }
+      .wrap { width:min(1160px,calc(100% - 44px)); margin:0 auto; }
+      .reading { width:min(960px,calc(100% - 44px)); margin:0 auto; }
+      .eyebrow { color:var(--purple); font-family:var(--mono); font-size:.72rem; font-weight:500; letter-spacing:.11em; text-transform:uppercase; }
+
+      nav { position:sticky; top:0; z-index:10; border-bottom:1px solid rgba(231,224,237,.9); background:rgba(255,255,255,.9); backdrop-filter:blur(13px); }
+      nav .wrap { display:flex; min-height:62px; align-items:center; justify-content:space-between; }
+      .brand { color:var(--purple); font-size:1.03rem; font-weight:700; letter-spacing:-.045em; }
+      .nav-links { display:flex; gap:24px; color:var(--ink-soft); font-size:.84rem; font-weight:600; }
+
+      .hero { position:relative; overflow:hidden; padding:78px 0 62px; text-align:center; background:linear-gradient(180deg,var(--pale),#fff 84%); }
+      .hero::before,.hero::after { position:absolute; width:570px; height:570px; border:1px solid #e6d5ef; border-radius:50%; content:""; pointer-events:none; }
+      .hero::before { top:-390px; left:-260px; }
+      .hero::after { right:-315px; bottom:-465px; }
+      .hero .wrap { position:relative; }
+      h1 { max-width:1160px; margin:15px auto 0; font-size:clamp(2.12rem,3.65vw,3.6rem); line-height:1.14; letter-spacing:-.022em; }
+      .title-mark { color:var(--purple); white-space:nowrap; }
+      .authors { max-width:930px; margin:25px auto 7px; color:var(--ink-soft); font-size:.87rem; line-height:1.52; }
+      .affiliations { margin:0 auto; color:var(--muted); font-size:.79rem; }
+      .authors sup,.affiliations sup { margin-left:1px; font-size:.72em; line-height:0; }
+      #overview .reading { text-align:center; }
+      #overview .intro-copy { margin-left:auto; margin-right:auto; text-align:left; }
+      .resource-links { display:flex; justify-content:center; flex-wrap:wrap; gap:8px; margin-top:27px; }
+      .resource-link { display:inline-flex; align-items:center; padding:7px 11px; border:1px solid var(--line); border-radius:4px; background:rgba(255,255,255,.82); color:var(--ink-soft); font-size:.79rem; font-weight:700; }
+      .resource-link .soon { margin-left:5px; color:var(--purple); font-family:var(--mono); font-size:.67rem; font-weight:500; letter-spacing:.015em; }
+
+      section { scroll-margin-top:84px; padding:72px 0; }
+      section.soft { background:var(--wash); border-block:1px solid var(--line); }
+      h2 { max-width:850px; margin:10px 0 16px; font-size:clamp(1.68rem,2.65vw,2.3rem); line-height:1.2; letter-spacing:-.014em; }
+      .intro-copy { max-width:840px; color:var(--ink-soft); font-family:var(--serif); font-size:1.16rem; line-height:1.52; }
+      .intro-copy strong { color:var(--ink); font-weight:700; }
+      .thesis { margin-top:29px; padding:21px 25px 20px; border-left:4px solid var(--purple); background:#faf7fc; color:var(--ink-soft); font-size:.96rem; }
+      .thesis b { color:var(--purple); font-family:var(--mono); font-size:.72rem; font-weight:500; letter-spacing:.08em; text-transform:uppercase; }
+      .thesis p { margin:8px 0 0; }
+
+      .method-top { display:grid; grid-template-columns:.9fr 1.1fr; gap:46px; align-items:end; }
+      .method-top p, .study-copy p, .result-head p { margin:0; color:var(--ink-soft); font-size:1rem; line-height:1.66; }
+      figure { margin:28px 0 0; }
+      figure img { display:block; width:100%; background:#fff; border:1px solid var(--line); }
+      .framework img { padding:13px; }
+      #representation .method-top { grid-template-columns:1.18fr .82fr; gap:66px; align-items:start; }
+      #representation .method-top > p { padding-top:42px; }
+      #representation .framework { margin-top:42px; }
+      figcaption { margin-top:10px; color:var(--muted); font-size:.83rem; line-height:1.48; }
+      figcaption b { color:var(--ink-soft); }
+      .flow { display:grid; grid-template-columns:repeat(3,1fr); gap:0; margin-top:34px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+      .flow-step { padding:20px 22px 22px 0; border-right:1px solid var(--line); }
+      .flow-step + .flow-step { padding-left:22px; }
+      .flow-step:last-child { border-right:0; }
+      .step-num { color:var(--purple); font-family:var(--mono); font-size:.71rem; letter-spacing:.08em; }
+      .flow-step h3 { margin:9px 0 8px; font-size:1.08rem; letter-spacing:-.025em; }
+      .flow-step p { margin:0; color:var(--muted); font-size:.9rem; line-height:1.53; }
+
+      .questions { display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:32px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+      .question { padding:18px 25px 20px 0; }
+      .question + .question { padding-left:25px; border-left:1px solid var(--line); }
+      .question-kicker { color:var(--purple); font-family:var(--mono); font-size:.67rem; letter-spacing:.09em; }
+      .question h3 { margin:7px 0 7px; font-size:1.1rem; letter-spacing:-.025em; }
+      .question p { margin:0; color:var(--muted); font-size:.91rem; line-height:1.55; }
+
+      .study-head { display:grid; grid-template-columns:1fr .9fr; gap:46px; align-items:end; }
+      .study-head h2 { margin-bottom:0; }
+      .study-row { display:grid; grid-template-columns:1fr 1.16fr; gap:42px; align-items:center; margin-top:47px; }
+      .study-row.reverse { grid-template-columns:1.16fr 1fr; }
+      .study-row.reverse .study-copy { order:2; }
+      .study-row figure { margin:0; }
+      .study-label { margin-bottom:11px; color:var(--purple); font-family:var(--mono); font-size:.7rem; letter-spacing:.09em; text-transform:uppercase; }
+      .study-copy h3 { margin:0 0 10px; color:var(--ink); font-size:1.32rem; line-height:1.18; letter-spacing:-.035em; }
+      .study-copy p + p { margin-top:11px; }
+      .study-row figure img { box-shadow:0 14px 35px rgba(50,23,69,.05); }
+      #capacity .study-head { grid-template-columns:1.12fr .88fr; align-items:start; }
+      #capacity .study-head > p { padding-top:4px; }
+      .capacity-layout { display:grid; grid-template-columns:1fr; gap:25px; margin-top:30px; }
+      .capacity-list { display:grid; grid-template-columns:repeat(3,1fr); border-top:1px solid var(--line); }
+      .capacity-item { padding:19px 27px 0 0; }
+      .capacity-item + .capacity-item { padding-left:27px; border-left:1px solid var(--line); }
+      .capacity-item b { display:block; margin-bottom:4px; color:var(--ink); font-size:.98rem; letter-spacing:-.018em; }
+      .capacity-item span { display:inline-block; margin-right:8px; color:var(--purple); font-family:var(--mono); font-size:.69rem; font-weight:500; letter-spacing:.06em; }
+      .capacity-item p { margin:0; color:var(--ink-soft); font-size:.93rem; line-height:1.57; }
+      .capacity-figure { margin:0; }
+      .capacity-figure img { box-shadow:0 14px 35px rgba(50,23,69,.05); }
+      .modeling-figure { margin:32px 0 0; }
+      .modeling-figure img { box-shadow:0 14px 35px rgba(50,23,69,.05); }
+      .modeling-list { display:grid; grid-template-columns:repeat(3,1fr); margin-top:25px; border-top:1px solid var(--line); }
+      .modeling-item { padding:19px 27px 0 0; }
+      .modeling-item + .modeling-item { padding-left:27px; border-left:1px solid var(--line); }
+      .modeling-item b { display:block; margin-bottom:5px; color:var(--ink); font-size:.98rem; letter-spacing:-.018em; }
+      .modeling-item span { display:inline-block; margin-right:8px; color:var(--purple); font-family:var(--mono); font-size:.69rem; font-weight:500; letter-spacing:.06em; }
+      .modeling-item p { margin:0; color:var(--ink-soft); font-size:.93rem; line-height:1.57; }
+      .target-table { width:100%; margin-top:11px; border-collapse:collapse; color:var(--ink-soft); font-size:.76rem; }
+      .target-table th,.target-table td { padding:5px 3px; border-bottom:1px solid var(--line); text-align:right; }
+      .target-table th:first-child,.target-table td:first-child,.target-table th:nth-child(2),.target-table td:nth-child(2) { text-align:left; }
+      .target-table th { color:var(--muted); font-family:var(--mono); font-size:.62rem; font-weight:500; letter-spacing:.03em; text-transform:uppercase; }
+      .target-table tr:last-child td { border-bottom:0; }
+      .target-table .best td { color:var(--ink); font-weight:700; }
+      .formula-card { margin-top:17px; padding:13px 15px 14px; border-left:3px solid var(--purple); background:#faf7fc; }
+      .formula-label { margin-bottom:7px; color:var(--purple); font-family:var(--mono); font-size:.65rem; letter-spacing:.085em; text-transform:uppercase; }
+      .formula { overflow-x:auto; color:var(--ink); font-family:var(--serif); font-size:1.32rem; line-height:1.45; white-space:nowrap; }
+      .formula sub,.formula sup { font-family:var(--serif); font-size:.7em; }
+      .formula-note { margin:8px 0 0; color:var(--muted); font-size:.82rem; line-height:1.48; }
+      .configuration { margin-top:45px; padding:24px 28px; border-top:3px solid var(--purple); background:#fff; box-shadow:0 14px 34px rgba(50,23,69,.045); }
+      .configuration h3 { margin:6px 0 7px; font-size:1.25rem; letter-spacing:-.028em; }
+      .configuration p { margin:0; color:var(--ink-soft); font-size:.98rem; line-height:1.64; }
+
+      .trajectory-heading { max-width:1040px; }
+      .trajectory-layout { display:grid; grid-template-columns:1.08fr .92fr; gap:48px 64px; align-items:start; margin-top:34px; }
+      .trajectory-figure { margin:0; }
+      .trajectory-figure img { padding:0; box-shadow:0 14px 35px rgba(50,23,69,.05); }
+      .trajectory-side { min-width:0; }
+      .trajectory-copy { grid-column:1 / -1; max-width:1170px; }
+      .formula-stack { margin-top:0; }
+      .formula-card { margin-top:0; padding:17px 20px 16px; }
+      .formula-label { margin:0 0 5px; color:var(--purple); font-family:var(--mono); font-size:.66rem; letter-spacing:.08em; text-transform:uppercase; }
+      .formula-card .formula { font-size:1.08rem; }
+      .formula-card .formula + .formula { margin-top:.42rem; }
+      .formula-card .formula-note { margin-top:6px; }
+      .formula-divider { height:1px; margin:12px 0; background:#e8dff0; }
+
+      .result-head { display:grid; grid-template-columns:1.08fr .92fr; gap:64px; align-items:end; }
+      .result-head h2 { margin-top:11px; }
+      .evaluation-cards { display:grid; grid-template-columns:repeat(2,1fr); margin-top:32px; border-top:1px solid var(--line); border-bottom:1px solid var(--line); }
+      .evaluation-card { padding:22px 28px 23px 0; }
+      .evaluation-card + .evaluation-card { padding-left:28px; border-left:1px solid var(--line); }
+      .evaluation-card b { display:block; margin-bottom:7px; color:var(--purple); font-size:1rem; }
+      .evaluation-card p { margin:0; color:var(--ink-soft); font-size:.94rem; line-height:1.6; }
+      .teaser { margin:34px 0 0; padding:14px; background:#fff; box-shadow:0 16px 42px rgba(50,23,69,.065); }
+      .teaser img { border:0; }
+      .comparison { width:100%; margin:22px 0 0; border-collapse:collapse; border-top:1px solid var(--line); font-size:.86rem; }
+      .comparison th,.comparison td { padding:11px 8px; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
+      .comparison th { color:var(--muted); font-family:var(--mono); font-size:.66rem; font-weight:500; letter-spacing:.05em; text-transform:uppercase; }
+      .comparison td:first-child { width:22%; color:var(--purple); font-weight:700; }
+      .comparison td:last-child { color:var(--ink-soft); }
+      .result-tables { margin-top:56px; }
+      .result-tables > h3 { margin:0 0 8px; font-size:1.38rem; letter-spacing:-.03em; }
+      .result-tables > p { max-width:760px; margin:0; color:var(--ink-soft); font-size:.96rem; line-height:1.6; }
+      .table-grid { display:grid; grid-template-columns:1.16fr .84fr; gap:24px; margin-top:25px; }
+      .table-panel { overflow:hidden; border:1px solid var(--line); background:#fff; }
+      .table-panel.benchmark { margin-top:24px; }
+      .table-heading { padding:16px 18px 13px; border-bottom:1px solid var(--line); }
+      .table-heading b { display:block; color:var(--ink); font-size:1rem; line-height:1.25; }
+      .table-heading span { display:block; margin-top:4px; color:var(--muted); font-size:.78rem; line-height:1.45; }
+      .table-scroll { overflow-x:auto; }
+      .results-table { width:100%; border-collapse:collapse; font-size:.8rem; white-space:nowrap; }
+      .results-table th,.results-table td { padding:10px 12px; border-bottom:1px solid var(--line); text-align:right; }
+      .results-table th:first-child,.results-table td:first-child { text-align:left; }
+      .results-table th { color:var(--muted); font-family:var(--mono); font-size:.64rem; font-weight:500; letter-spacing:.04em; text-transform:uppercase; }
+      .results-table tbody tr:last-child td { border-bottom:0; }
+      .results-table .ours td { background:#f3eafa; color:var(--ink); font-weight:700; }
+      .results-table .separator td { padding:0; height:7px; background:#fff; border-bottom:0; }
+
+      footer { padding:35px 0 43px; border-top:1px solid var(--line); color:var(--muted); font-size:.83rem; }
+      footer .wrap { display:flex; justify-content:space-between; gap:24px; }
+
+      @media (max-width:760px) {
+        .wrap,.reading { width:min(100% - 32px,900px); }
+        .nav-links { display:none; }
+        .hero { padding:63px 0 50px; }
+        section { padding:62px 0; }
+        .method-top,.study-head,.study-row,.study-row.reverse,.trajectory-layout,.result-head,.evaluation-cards,.table-grid,.capacity-layout { grid-template-columns:1fr; gap:30px; }
+        #representation .method-top { grid-template-columns:1fr; }
+        #representation .method-top > p { padding-top:0; }
+        #capacity .study-head { grid-template-columns:1fr; }
+        #capacity .study-head > p { padding-top:0; }
+        .capacity-list { grid-template-columns:1fr; }
+        .capacity-item,.capacity-item + .capacity-item { padding:18px 0; border-left:0; border-bottom:1px solid var(--line); }
+        .capacity-item:last-child { border-bottom:0; padding-bottom:0; }
+        .modeling-list { grid-template-columns:1fr; }
+        .modeling-item,.modeling-item + .modeling-item { padding:18px 0; border-left:0; border-bottom:1px solid var(--line); }
+        .modeling-item:last-child { border-bottom:0; padding-bottom:0; }
+        .evaluation-card,.evaluation-card + .evaluation-card { padding:18px 0; border-left:0; border-bottom:1px solid var(--line); }
+        .evaluation-card:last-child { border-bottom:0; padding-bottom:0; }
+        .study-row.reverse .study-copy { order:initial; }
+        .questions { grid-template-columns:1fr; }
+        .question,.question + .question { padding:19px 0; border-left:0; border-bottom:1px solid var(--line); }
+        .question:last-child { border-bottom:0; }
+        .flow { grid-template-columns:1fr; }
+        .flow-step,.flow-step + .flow-step { padding:21px 0; border-right:0; border-bottom:1px solid var(--line); }
+        .flow-step:last-child { border-bottom:0; }
+        footer .wrap { display:block; }
+        footer span + span { display:block; margin-top:6px; }
+      }
     </style>
   </head>
   <body>
-    <nav>
+    <nav><div class="wrap"><a class="brand" href="#top">AURORA-LM</a><div class="nav-links"><a href="#overview">Abstract</a><a href="#representation">Representation</a><a href="#modeling">Modeling</a><a href="#trajectory">Sampling</a><a href="#results">Evaluation</a></div></div></nav>
+
+    <header id="top" class="hero">
       <div class="wrap">
-        <a class="brand" href="#top">AURORA-LM</a>
-        <div class="nav-links"><a href="#overview">Overview</a><a href="#method">Method</a><a href="#results">Results</a><a href="#release">Release</a></div>
+        <div class="eyebrow">Continuous-latent diffusion language modeling</div>
+        <h1>AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling</h1>
+        <p class="authors"><strong>Jiajun Liang</strong><sup>1,*</sup>, <strong>Yucheng Liao</strong><sup>1,*</sup>, <strong>Yukang Cao</strong><sup>2,*</sup>, Jiazhe Wei<sup>1</sup>, Ken Li<sup>1</sup>, Wende Tan<sup>3</sup>, ZY Cui<sup>1</sup>, Jingkang Yang<sup>1</sup>, Liucheng Guo<sup>3</sup>, B. Yang, Caifeng Shan<sup>1</sup>, Ziwei Liu<sup>2</sup>, and Chenyang Si<sup>1,†</sup></p>
+        <p class="affiliations"><sup>1</sup>PRLab, Nanjing University · <sup>2</sup>S-Lab, Nanyang Technological University · <sup>3</sup>Imperial College London<br />* Equal contribution · † Corresponding author</p>
+        <div class="resource-links" aria-label="Release resources"><span class="resource-link">Paper <span class="soon">Coming soon</span></span><span class="resource-link">Code <span class="soon">Coming soon</span></span><span class="resource-link">Checkpoints <span class="soon">Coming soon</span></span><span class="resource-link">Evaluation <span class="soon">Coming soon</span></span></div>
       </div>
-    </nav>
+    </header>
 
-    <main id="top">
-      <header class="hero">
-        <div class="wrap">
-          <div class="eyebrow">Continuous-latent diffusion language modeling</div>
-          <h1>AURORA-LM</h1>
-          <p class="subtitle">Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling</p>
-          <p class="authors"><strong>Jiajun Liang*</strong>, <strong>Yucheng Liao*</strong>, <strong>Yukang Cao*</strong>, Jiazhe Wei, Ken Li, Wende Tan, ZY Cui, Jingkang Yang, Liucheng Guo, Caifeng Shan, Ziwei Liu, and Chenyang Si†</p>
-          <p class="affiliations">PRLab, Nanjing University · S-Lab, Nanyang Technological University · Imperial College London<br />* Equal contribution · † Corresponding author</p>
-          <div class="buttons">
-            <a class="button primary" href="https://github.com/fyv587/AURORA-LM">Code</a>
-            <span class="button muted">Paper · coming soon</span>
+    <main>
+      <section id="overview"><div class="reading">
+        <div class="eyebrow">Abstract</div>
+        <h2>A continuous-latent diffusion model for text.</h2>
+        <p class="intro-copy">Language remains an outlier in modern generative modeling: while images, video, and audio are increasingly modeled in continuous latent spaces, text generation still relies predominantly on discrete tokens. Existing continuous language models either inherit embedding spaces not designed for generation and decoding jointly, or compress autoencoded latents to make diffusion easier at the cost of token-level fidelity. We challenge this prevailing design compromise. Instead of simplifying the representation to accommodate the generative model, we preserve a high-capacity, decodable text latent and design the diffusion model to learn its distribution directly.</p>
+        <p class="intro-copy">We introduce <strong>AURORA-LM</strong>, a continuous-latent diffusion language model that separates the construction of a decodable text representation from the modeling of its generative distribution. To obtain such a representation, we use a Query-based Encoder-Decoder that organizes text into a high-capacity, prefix-aligned latent sequence. We then introduce a Block-causal Diffusion Transformer that learns the distribution of these full-width latents through flow matching, generating blocks from left to right while denoising the positions within each block in parallel. However, retaining a high-capacity latent representation for accurate token decoding also makes its distribution more challenging for the diffusion model to learn. AURORA-LM addresses this difficulty by restricting only the noisy-input pathway while retaining the full clean-latent prediction target, allowing the generative model to accommodate the full-width latent without reducing decoder-facing capacity. We further calibrate the noise-level distribution to the latent width, accounting for how the effective signal strength changes with representation dimensionality. Finally, we introduce self-trajectory consistency to bridge the gap between training on independently sampled noisy states and inference through iterative denoising.</p>
+        <p class="intro-copy">Across comprehensive comparisons, AURORA-LM achieves the strongest performance among the evaluated continuous and diffusion-based language models on OpenWebText free generation and XSum conditional summarization. Scaling to 1B parameters with approximately 1,500 EFLOPs of total compute yields further gains and surpasses a larger publicly released latent-diffusion language model under a matched evaluation protocol. Our results demonstrate that continuous language generation can effectively bridge diffusion-based generative modeling and discrete token decoding through a high-capacity, causally structured, and decodable text representation. All experiments are conducted on Ascend NPUs.</p>
+      </div></section>
+
+      <section id="representation"><div class="wrap">
+        <div class="method-top"><div><div class="eyebrow">Continuous text interface</div><h2>A continuous text latent is the interface between token decoding and continuous generation.</h2></div><p>AURORA-LM first maps text to a causally ordered latent sequence. The encoder--decoder is trained to reconstruct tokens and then fixed; a block-causal diffusion Transformer subsequently models the latent distribution.</p></div>
+        <figure class="framework"><img src="assets/framework.png" alt="AURORA-LM pipeline: a continuous text latent, block-causal diffusion modeling, and token decoding." /><figcaption><b>Overview.</b> A causally ordered text latent is the interface between discrete token decoding and continuous generation. The denoiser generates latent blocks from left to right; the fixed decoder maps the completed sequence to token logits.</figcaption></figure>
+      </div></section>
+
+      <section id="capacity" class="soft"><div class="wrap">
+        <div class="study-head"><div><div class="eyebrow">Latent capacity</div><h2>High-capacity latents support robust token recovery and strong generation.</h2></div><p>Channel width controls the information carried by each latent position. We test whether higher capacity preserves token-level information under corruption and remains effective for generation after a separate noise-allocation search for each width.</p></div>
+        <div class="capacity-layout"><figure class="capacity-figure"><img src="assets/latent-capacity.png" alt="Latent-channel capacity, corrupted-latent recovery, and sequence-compression results." /><figcaption><b>Latent capacity.</b> Panel (a) evaluates direct decoding under corruption. Panel (b) reports the best MAUVE after the width-specific schedule search. Panel (c) reports the separate compression efficiency trade-off.</figcaption></figure><div class="capacity-list"><article class="capacity-item"><b><span>(a)</span>Token recovery under corruption</b><p>Narrow latents lose token-recovery accuracy much earlier as corruption increases. Wider channels preserve the information required for exact decoding over a substantially broader corruption range.</p></article><article class="capacity-item"><b><span>(b)</span>Generation under matched calibration</b><p>Retaining higher channel capacity also improves generation after appropriate noise calibration. For each width, we search the same tan-<i>d</i> schedule family and report the best MAUVE, which improves consistently with channel width.</p></article><article class="capacity-item"><b><span>(c)</span>Compression as an efficiency option</b><p>Sequence compression reduces generation cost by requiring fewer generated positions and, for a fixed block size, fewer blockwise denoising stages. This efficiency gain trades against quality: mild compression incurs only a small MAUVE reduction, whereas stronger compression steadily lowers quality.</p></article></div></div>
+      </div></section>
+
+      <section id="modeling" class="soft"><div class="wrap">
+        <div class="study-head"><div><div class="eyebrow">Modeling the full-width latent distribution</div><h2>Capacity required for decoding need not also be the width of the noisy input.</h2></div><p>The full-width clean target is fixed by the decoder-facing interface. We then examine how the denoiser should read, supervise, and recover this target without reducing the information available for token decoding.</p></div>
+        <figure class="modeling-figure"><img src="assets/bottleneck-schedule.png" alt="Studies of noisy-input bottleneck width and high-noise training allocation." /><figcaption><b>Full-width latent modeling.</b> Panel (a) varies only the noisy-input bottleneck width while the clean target remains full width. Panel (b) expresses tan-<i>d</i> and logit-normal sweeps on a common high-noise-mass axis, revealing a shared preference for high-noise supervision.</figcaption></figure>
+        <div class="modeling-list"><article class="modeling-item"><b><span>(a)</span>Noisy-input bottleneck</b><p>The clean prediction target retains full width for accurate token recovery, whereas the noisy-input pathway determines how much of the corrupted state the Transformer reads at each denoising step. With the clean target fixed, a moderate bottleneck gives the strongest mean MAUVE across the tested solver budgets.</p></article><article class="modeling-item"><b><span>(b)</span>Noise allocation</b><p>The noise-level distribution determines how flow-matching supervision is allocated along the corruption path. Across tan-<i>d</i> and logit-normal parameterizations, MAUVE improves as more supervision is assigned to highly corrupted states, indicating that the full-width target benefits from stronger high-noise calibration.</p></article><article class="modeling-item"><b><span>(c)</span>Clean-latent prediction</b><p>Direct clean-latent prediction with an <i>x</i><sub>0</sub>-space loss gives the highest MAUVE under both noisy-input widths.</p><table class="target-table" aria-label="Prediction target and loss-space MAUVE"><thead><tr><th>Target</th><th>Loss</th><th><i>D</i><sub>b</sub>=128</th><th><i>D</i><sub>b</sub>=1024</th></tr></thead><tbody><tr class="best"><td><i>x</i><sub>0</sub></td><td><i>x</i><sub>0</sub></td><td>0.815</td><td>0.807</td></tr><tr><td><i>x</i><sub>0</sub></td><td><i>v</i></td><td>0.059</td><td>0.017</td></tr><tr><td><i>v</i></td><td><i>x</i><sub>0</sub></td><td>0.729</td><td>0.325</td></tr><tr><td><i>v</i></td><td><i>v</i></td><td>0.653</td><td>0.301</td></tr></tbody></table></article></div>
+      </div></section>
+
+      <section id="trajectory"><div class="wrap">
+        <div class="trajectory-heading"><div class="study-label">Self-trajectory consistency</div><h2>Flow matching supervises independently sampled noisy states, whereas generation repeatedly follows the model's own trajectory.</h2></div>
+        <div class="trajectory-layout"><figure class="trajectory-figure"><img src="assets/self-trajectory-consistency.png" alt="Self-trajectory consistency: a current-model prediction, detached Euler update, and EMA-model prediction at the neighboring noisy state." /><figcaption><b>Self-trajectory consistency.</b> The current model predicts at the noisy state, a detached update produces the neighboring state, and the EMA model supplies the stop-gradient target.</figcaption></figure><div class="trajectory-side"><div class="formula-stack"><div class="formula-card"><p class="formula-label">Self-trajectory consistency</p><div class="formula"><i>t</i>′ = Prev<sub>S</sub>(<i>t</i>) &lt; <i>t</i></div><div class="formula">α̃<sub>t′</sub> = (<i>t</i>′/<i>t</i>) α<sub>t</sub> + (1 − <i>t</i>′/<i>t</i>) sg(ẑ<sub>θ</sub>(α<sub>t</sub>, <i>t</i>))</div><div class="formula-divider"></div><div class="formula">L<sub>ct</sub> = || ẑ<sub>θ</sub>(α<sub>t</sub>, <i>t</i>) − sg(ẑ<sub>θ<sub>EMA</sub></sub>(α̃<sub>t′</sub>, <i>t</i>′)) ||<sup>2</sup><sub>2</sub></div><p class="formula-note">Here Prev<sub>S</sub>(<i>t</i>) is the lower-noise level reached by one step of the <i>S</i>-step sampling schedule, and sg stops gradients. The full objective averages this term over sampled trajectories and valid latent positions; gradients flow only through the current-model prediction.</p></div></div></div><div class="study-copy trajectory-copy"><p>Self-conditioning provides the previous clean-latent estimate as an input, but does not explicitly enforce consistency between predictions at successive sampling states. The estimate at time <i>t</i> determines the updated state at time <i>t′</i> used for the next prediction, so inconsistent estimates of the same clean latent can accumulate errors along the denoising trajectory.</p><p>Self-trajectory consistency aligns the clean-latent predictions before and after one model-induced update. The current model predicts at the noisy state; after a detached update, an EMA model supplies the stable stop-gradient target at the neighboring state.</p></div></div>
+        <div class="study-row"><div class="study-copy"><div class="study-label">Few-step sampling and block granularity</div><h3>Trajectory consistency improves few-step sampling; block granularity balances conditioning and parallelism.</h3><p>Self-trajectory consistency improves MAUVE at every tested step budget, with the largest gains in the few-step regime. Its advantage narrows as the solver uses more steps and the trajectory becomes more finely discretized.</p><p>Block size controls the balance between left-to-right conditioning across blocks and parallel denoising within each block. Smaller blocks provide a more complete generated prefix, improving conditional generation at the cost of more sequential stages; <i>Q</i> = 16 is the selected operating point.</p></div><figure><img src="assets/generation-protocol.png" alt="MAUVE across denoising budgets with and without self-trajectory consistency and across block sizes." /><figcaption><b>Few-step sampling and block granularity.</b> <b>Left:</b> self-trajectory consistency improves MAUVE at every tested budget, particularly in the few-step regime. <b>Right:</b> smaller blocks improve conditional generation through stronger prefix conditioning, at the cost of additional sequential stages.</figcaption></figure></div>
+      </div></section>
+
+      <section id="results" class="soft"><div class="wrap">
+        <div class="result-head"><div><div class="eyebrow">System-level evaluation</div><h2>We evaluate the selected configuration on free generation and conditional summarization, then test whether the formulation remains effective at billion-parameter scale.</h2></div><p>Reported model sizes refer only to the block-causal denoiser and exclude the autoencoder.</p></div>
+        <div class="evaluation-cards"><article class="evaluation-card"><b>AURORA-LM-S · Generation evaluation</b><p>We compare AURORA-LM-S with autoregressive, discrete-diffusion, and continuous-flow baselines on 1,024-token OpenWebText free generation. It achieves the lowest Gen-PPL and highest MAUVE among the evaluated systems. We then evaluate the same configuration on XSum conditional summarization, where it attains the best ROUGE scores across all three metrics.</p></article><article class="evaluation-card"><b>AURORA-LM-L · Billion-parameter evaluation</b><p>We next examine whether the formulation remains effective when the block-causal diffusion Transformer is scaled to approximately 1B parameters. AURORA-LM-L is trained with approximately 1,500 EFLOPs of total compute. Under the matched nine-task benchmark protocol, it surpasses a larger publicly released latent-diffusion language model.</p></article></div>
+        <figure class="teaser"><img src="assets/teaser.png" alt="AURORA-LM results for research-scale generation and billion-parameter benchmark evaluation." /><figcaption><b>End-to-end evaluation.</b> <b>Left:</b> AURORA-LM-S is compared on OpenWebText free generation and XSum conditional summarization; the radar displays AR, MDLM, and ELF-B as representative baselines. <b>Right:</b> AURORA-LM-L is evaluated under a matched nine-task benchmark protocol against a larger publicly released latent-diffusion language model.</figcaption></figure>
+        <div class="result-tables"><h3>Detailed results</h3><p>The tables reproduce the reported comparisons. OpenWebText rows are in-house reproductions based on 1,000 generated samples; values marked † are collected by ELF. Model-size and sampling details are provided in the paper appendix.</p>
+          <div class="table-grid">
+            <article class="table-panel"><div class="table-heading"><b>OpenWebText unconditional generation</b><span>1,024-token free generation. Lower Gen-PPL is better; higher entropy and MAUVE are better.</span></div><div class="table-scroll"><table class="results-table"><thead><tr><th>Model</th><th>Gen-PPL ↓</th><th>Entropy ↑</th><th>MAUVE ↑</th></tr></thead><tbody><tr><td>AR</td><td>39.40</td><td>5.605</td><td>0.851</td></tr><tr><td>Duo</td><td>86.57</td><td>5.566</td><td>0.704</td></tr><tr><td>Duo-distilled</td><td>78.22</td><td>5.574</td><td>0.715</td></tr><tr><td>SEDD</td><td>119.82</td><td>5.644</td><td>0.693</td></tr><tr><td>MDLM</td><td>121.36</td><td><b>5.664</b></td><td>0.668</td></tr><tr><td>ELF-B</td><td>24.11</td><td>5.155</td><td>0.229</td></tr><tr class="ours"><td>AURORA-LM-S</td><td>23.56</td><td>5.241</td><td>0.890</td></tr></tbody></table></div></article>
+            <article class="table-panel"><div class="table-heading"><b>XSum conditional generation</b><span>ROUGE-1, ROUGE-2, and ROUGE-L; higher is better. † Values collected by ELF.</span></div><div class="table-scroll"><table class="results-table"><thead><tr><th>Model</th><th>R-1 ↑</th><th>R-2 ↑</th><th>R-L ↑</th></tr></thead><tbody><tr><td>ELF-B†</td><td>36.0</td><td>12.2</td><td>27.8</td></tr><tr><td>AR†</td><td>30.5</td><td>10.2</td><td>24.4</td></tr><tr><td>MDLM†</td><td>33.4</td><td>11.6</td><td>25.8</td></tr><tr><td>Duo†</td><td>31.4</td><td>10.1</td><td>25.0</td></tr><tr><td>E2D2†</td><td>28.4</td><td>8.3</td><td>22.0</td></tr><tr><td>SeqDiffuSeq†</td><td>19.3</td><td>1.7</td><td>14.1</td></tr><tr class="ours"><td>AURORA-LM-S</td><td>36.6</td><td>13.4</td><td>28.9</td></tr></tbody></table></div></article>
           </div>
+          <article class="table-panel benchmark"><div class="table-heading"><b>Nine-task benchmark evaluation</b><span>All entries are percentages. Avg is the macro average over the nine tasks; higher is better for every metric.</span></div><div class="table-scroll"><table class="results-table"><thead><tr><th>Model</th><th>Avg ↑</th><th>HellaSwag</th><th>MMLU</th><th>ARC-C</th><th>WinoGrande</th><th>StoryCloze</th><th>RACE</th><th>SIQA</th><th>OBQA</th><th>SQuAD EM</th></tr></thead><tbody><tr class="ours"><td>AURORA-LM-L (1B)</td><td>32.6</td><td>18.4</td><td>22.2</td><td>21.2</td><td>50.3</td><td>54.8</td><td>30.6</td><td>30.2</td><td>27.8</td><td>38.2</td></tr><tr><td>Cola-DLM (1.8B)</td><td>25.1</td><td>5.7</td><td>19.6</td><td>20.6</td><td>45.3</td><td>33.8</td><td>24.2</td><td>26.8</td><td>24.2</td><td>25.7</td></tr></tbody></table></div></article>
         </div>
-      </header>
+      </div></section>
 
-      <section id="overview">
-        <div class="wrap center">
-          <h2>Preserve a high-capacity, decodable text latent.</h2>
-          <p class="lead">AURORA-LM separates the construction of a decodable continuous text representation from the modeling of its generative distribution. Instead of simplifying the representation to accommodate the generative model, it preserves a high-capacity, decodable text latent and designs the diffusion model to learn its distribution directly.</p>
-        </div>
-      </section>
-
-      <section id="method" class="alt">
-        <div class="wrap center">
-          <h2>From text to continuous generation and back</h2>
-          <img class="figure framework" src="assets/framework.png" alt="AURORA-LM overview pipeline" />
-          <p class="caption">A Query-based Encoder-Decoder constructs an ordered continuous text latent; a block-causal denoiser learns its distribution through flow matching and generates latent blocks from left to right.</p>
-        </div>
-      </section>
-
-      <section>
-        <div class="wrap">
-          <div class="center"><h2>Three coupled design choices</h2></div>
-          <div class="cards">
-            <article class="card"><div class="index">01 · LATENT INTERFACE</div><h3>High-capacity, prefix-aligned text latents</h3><p>A Query-based Encoder-Decoder organizes text into a continuous latent sequence that supports token decoding and blockwise left-to-right generation.</p></article>
-            <article class="card"><div class="index">02 · DISTRIBUTION MODELING</div><h3>Learning full-width latent distributions</h3><p>A Block-Causal Diffusion Transformer learns the full clean latent used by the decoder. A low-rank bottleneck restricts only the noisy-input pathway.</p></article>
-            <article class="card"><div class="index">03 · GENERATION</div><h3>Blockwise generation with trajectory consistency</h3><p>Latent blocks are generated left to right while positions within each block are jointly denoised; width-aware noise allocation and trajectory consistency stabilize sampling.</p></article>
-          </div>
-        </div>
-      </section>
-
-      <section id="results" class="alt">
-        <div class="wrap center">
-          <h2>Evaluation across generation settings and model scales</h2>
-          <img class="figure teaser" src="assets/teaser.png" alt="AURORA-LM system-level and scaling evaluation" />
-          <p class="caption">AURORA-LM is evaluated on OpenWebText free generation, XSum conditional summarization, and a nine-task large-scale benchmark protocol.</p>
-        </div>
-      </section>
-
-      <section id="release">
-        <div class="wrap center">
-          <h2>Release status</h2>
-          <p class="lead">This official repository is being prepared for the public release. Training code, evaluation scripts, and checkpoints are not yet available.</p>
-          <ul class="release">
-            <li class="ready">✓ Project page and paper overview</li>
-            <li class="soon">○ Training and inference code</li>
-            <li class="soon">○ Evaluation scripts and configurations</li>
-            <li class="soon">○ Model checkpoints</li>
-          </ul>
-        </div>
-      </section>
     </main>
 
-    <footer>
-      <div class="wrap">For questions and collaborations, please contact <a href="mailto:grealish2821@gmail.com">Jiajun Liang</a> or <a href="mailto:chenyangsi@smail.nju.edu.cn">Chenyang Si</a>.</div>
-    </footer>
+    <footer><div class="wrap"><span>AURORA-LM · Continuous-Latent Diffusion Language Modeling</span><span>PRLab, Nanjing University</span></div></footer>
   </body>
 </html>
