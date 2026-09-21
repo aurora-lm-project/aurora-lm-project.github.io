@@ -3,7 +3,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="description" content="AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling. AURORA-LM-S training and inference code and checkpoints are now available." />
+    <meta name="description" content="AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling." />
     <title>AURORA-LM</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -40,18 +40,7 @@
       #overview .intro-copy { margin-left:auto; margin-right:auto; text-align:left; }
       .resource-links { display:flex; justify-content:center; flex-wrap:wrap; gap:10px; margin-top:27px; }
       .resource-link { display:inline-flex; align-items:center; padding:9px 14px; border:1px solid var(--line); border-radius:4px; background:rgba(255,255,255,.82); color:var(--ink-soft); font-size:.92rem; font-weight:700; }
-      .release-notice { margin:22px auto 0; max-width:740px; color:var(--ink-soft); font-size:.9rem; }
-      .release-notice time { color:var(--purple); font-family:var(--mono); font-size:.8rem; }
-      .release-notice a,.release-table a { color:var(--purple); text-decoration:underline; text-underline-offset:3px; }
-      #release { padding:48px 0; background:var(--wash); border-block:1px solid var(--line); }
-      #release h2 { font-size:clamp(1.5rem,2.4vw,2rem); }
-      #release h2 span,.release-notice a { display:inline-block; }
-      .release-copy { margin:0; color:var(--ink-soft); font-size:.98rem; }
-      .release-table { width:100%; margin-top:24px; border-collapse:collapse; font-size:.9rem; }
-      .release-table th,.release-table td { padding:12px 14px 12px 0; border-bottom:1px solid var(--line); text-align:left; vertical-align:top; }
-      .release-table th { color:var(--muted); font-size:.8rem; font-weight:600; }
-      .release-table tbody th { color:var(--ink); font-size:.9rem; }
-      .release-links { justify-content:flex-start; margin-top:22px; }
+      .resource-link .soon { margin-left:6px; color:var(--purple); font-family:var(--mono); font-size:.70rem; font-weight:500; letter-spacing:.015em; }
 
       section { scroll-margin-top:84px; padding:72px 0; }
       section.soft { background:var(--wash); border-block:1px solid var(--line); }
@@ -232,7 +221,7 @@
     </style>
   </head>
   <body>
-    <nav><div class="wrap"><a class="brand" href="#top">AURORA-LM</a><div class="nav-links"><a href="#release">Release</a><a href="#overview">Abstract</a><a href="#representation">Representation</a><a href="#modeling">Latent Modeling</a><a href="#generation">Generation</a><a href="#results">Evaluation</a><a href="#conclusion">Conclusion</a></div></div></nav>
+    <nav><div class="wrap"><a class="brand" href="#top">AURORA-LM</a><div class="nav-links"><a href="#overview">Abstract</a><a href="#representation">Representation</a><a href="#modeling">Latent Modeling</a><a href="#generation">Generation</a><a href="#results">Evaluation</a><a href="#conclusion">Conclusion</a></div></div></nav>
 
     <header id="top" class="hero">
       <div class="wrap">
@@ -240,32 +229,11 @@
         <h1>AURORA-LM: Autoencoding Unified Representation for Continuous-Latent Diffusion Language Modeling</h1>
         <p class="authors">Jiajun Liang<sup>1,*</sup>, Yucheng Liao<sup>1,*</sup>, Yukang Cao<sup>2,*</sup>, Jiazhe Wei<sup>1</sup>, Ken Li<sup>1</sup>, Wende Tan<sup>3</sup>, Jiankun Zhang<sup>1</sup>, ZY Cui<sup>1</sup>, Jingkang Yang<sup>1</sup>, Liucheng Guo<sup>3</sup>, Shiqi Yang<sup>1</sup>, B. Yang, Caifeng Shan<sup>1</sup>, Ziwei Liu<sup>2</sup>, and Chenyang Si<sup>1,†</sup></p>
         <p class="affiliations"><sup>1</sup>PRLab, Nanjing University · <sup>2</sup>S-Lab, Nanyang Technological University · <sup>3</sup>Imperial College London<br />* Equal contribution · † Corresponding author</p>
-        <div class="resource-links" aria-label="Release resources"><a class="resource-link" href="https://arxiv.org/abs/2608.02602" target="_blank" rel="noopener">📄 Paper</a><a class="resource-link" href="https://github.com/fyv587/AURORA-LM" target="_blank" rel="noopener">💻 Code</a><a class="resource-link" href="#release">🤗 AURORA-LM-S Checkpoints</a></div>
-        <p class="release-notice"><time datetime="2026-09-19">September 19, 2026</time> · AURORA-LM-S training and inference code and checkpoints are now available. <a href="#release">Explore the release →</a></p>
+        <div class="resource-links" aria-label="Release resources"><a class="resource-link" href="https://arxiv.org/abs/2608.02602" target="_blank" rel="noopener">📄 Paper</a><a class="resource-link" href="https://github.com/fyv587/AURORA-LM" target="_blank" rel="noopener">💻 Code</a><span class="resource-link">🤗 Checkpoints</span></div>
       </div>
     </header>
 
     <main>
-
-      <section id="release" aria-labelledby="release-heading"><div class="reading">
-        <div class="eyebrow">Open-source release</div>
-        <h2 id="release-heading">Get started with <span>AURORA-LM-S.</span></h2>
-        <p class="release-copy">Download the OpenWebText and XSum checkpoints, each with a 130M-parameter denoiser, together with their shared text autoencoder. Training, inference, and evaluation code is available in the official repository.</p>
-        <div class="table-scroll"><table class="release-table" aria-label="Released AURORA-LM-S checkpoints">
-          <thead><tr><th scope="col">Checkpoint</th><th scope="col">Task</th><th scope="col">Download</th></tr></thead>
-          <tbody>
-            <tr><th scope="row">AURORA-LM-S · OWT</th><td>OpenWebText unconditional generation</td><td><a href="https://huggingface.co/fyv587/aurora-gpt2-owt" target="_blank" rel="noopener" aria-label="Download the OpenWebText checkpoint on Hugging Face">Hugging Face ↗</a></td></tr>
-            <tr><th scope="row">AURORA-LM-S · XSum</th><td>Prompt-conditioned summarization</td><td><a href="https://huggingface.co/fyv587/aurora-gpt2-xsum" target="_blank" rel="noopener" aria-label="Download the XSum checkpoint on Hugging Face">Hugging Face ↗</a></td></tr>
-            <tr><th scope="row">Text autoencoder</th><td>Shared by both diffusion models</td><td><a href="https://huggingface.co/fyv587/aurora-text-autoencoder" target="_blank" rel="noopener" aria-label="Download the shared text autoencoder on Hugging Face">Hugging Face ↗</a></td></tr>
-          </tbody>
-        </table></div>
-        <div class="resource-links release-links" aria-label="Getting started documentation">
-          <a class="resource-link" href="https://github.com/fyv587/AURORA-LM#installation" target="_blank" rel="noopener">Installation ↗</a>
-          <a class="resource-link" href="https://github.com/fyv587/AURORA-LM#inference" target="_blank" rel="noopener">Run inference ↗</a>
-          <a class="resource-link" href="https://github.com/fyv587/AURORA-LM#training" target="_blank" rel="noopener">Training ↗</a>
-          <a class="resource-link" href="https://github.com/fyv587/AURORA-LM#evaluation" target="_blank" rel="noopener">Evaluation ↗</a>
-        </div>
-      </div></section>
       <section id="overview"><div class="reading">
         <div class="eyebrow">Abstract</div>
         <p class="intro-copy">Language remains an outlier in modern generative modeling: while images, video, and audio are increasingly modeled in continuous latent spaces, text generation still relies predominantly on discrete tokens. Existing continuous language models either inherit embedding spaces not designed for generation and decoding jointly, or compress autoencoded latents to make diffusion easier at the cost of token-level fidelity. We challenge this prevailing design compromise. Instead of simplifying the representation to accommodate the generative model, we preserve a high-capacity, decodable text latent and design the diffusion model to learn its distribution directly.</p>
